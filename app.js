@@ -11,23 +11,12 @@ GAME RULES:
 
 let scores, roundScore, activePlayer;
 
-scores = [0, 0];
-roundScore = 0;
-activePlayer = 0;
-
+init();
 
 // document.querySelector('#current-' + activePlayer).textContent = dice;
 // document.querySelector('#current-' + activePlayer).innerHTML = '<em>'dice'/em';
 // var x = document.querySelector('#score-0').textContent;
 
-//Makes the dice disappear at the start of player turn
-document.querySelector('.dice').style.display = 'none';
-
-//Base scores start at 0
-document.getElementById('score-0').textContent = '0';
-document.getElementById('score-1').textContent = '0';
-document.getElementById('current-0').textContent = '0';
-document.getElementById('current-1').textContent = '0';
 //A call back function is a function that is passed into another function as
 //an argument
 
@@ -48,20 +37,62 @@ document.querySelector('.btn-roll').addEventListener('click', function(){
     roundScore += dice;
     document.querySelector('#current-' + activePlayer).textContent = roundScore;
   }else{
-    //Next player This is a ternary operator(A one line if statement)
-    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
-    
-    roundScore = 0;
-
-    document.getElementById('current-0').textContent = '0';
-    document.getElementById('current-1').textContent = '0';
-
-    document.querySelector('.player-0-panel').classList.toggle('active');
-    document.querySelector('.player-1-panel').classList.toggle('active');
-
-    // document.querySelector('.player-0-panel').classList.remove('active');
-    // document.querySelector('.player-1-panel').classList.add('active');
-
-    document.querySelector('.dice').style.display = 'none';
+    nextPlayer();
   }
-})
+});
+
+document.querySelector('.btn-hold').addEventListener('click', function(){
+  //Add current score to global score
+  scores[activePlayer] += roundScore;
+
+  //Update the UI
+  document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+
+  //Check if player won the game
+  if(scores[activePlayer] >= 100){
+    document.querySelector('name-' + activePlayer).textContent = 'Winner!';
+    document.querySelector('.dice').style.display = 'none';
+    document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+    document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+  }else{
+  //Next player
+  nextPlayer();
+}
+});
+
+function nextPlayer(){
+  //Next player This is a ternary operator(A one line if statement)
+  activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+
+  roundScore = 0;
+
+  document.getElementById('current-0').textContent = '0';
+  document.getElementById('current-1').textContent = '0';
+
+  document.querySelector('.player-0-panel').classList.toggle('active');
+  document.querySelector('.player-1-panel').classList.toggle('active');
+
+  // document.querySelector('.player-0-panel').classList.remove('active');
+  // document.querySelector('.player-1-panel').classList.add('active');
+
+  document.querySelector('.dice').style.display = 'none';
+}
+
+docuent.querySelector('.btn-new').addEventListener('click', init){
+
+});
+
+function init(){
+  scores = [0, 0];
+  roundScore = 0;
+  activePlayer = 0;
+
+  //Makes the dice disappear at the start of player turn
+  document.querySelector('.dice').style.display = 'none';
+
+  //Base scores start at 0
+  document.getElementById('score-0').textContent = '0';
+  document.getElementById('score-1').textContent = '0';
+  document.getElementById('current-0').textContent = '0';
+  document.getElementById('current-1').textContent = '0';
+};
