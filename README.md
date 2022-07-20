@@ -1,2 +1,2 @@
 # DiceGame
-Made following a tutorial. Additional functionality being worked on
+Additional functionality being worked on
